@@ -4,7 +4,7 @@
 
 <html>
     <head>
-        <%@ include file="common/head.jsp" %>
+        <%@ include file="../common/head.jsp" %>
         <title>用户管理</title>
     </head>
     <div id="toolbar" class="form-inline panel">

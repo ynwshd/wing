@@ -14,10 +14,11 @@ import com.hd.wing.service.UserService;
  * @author ynwshd
  */
 @Service("userService")
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseService  implements UserService{
 
     @Override
     public User getUser() {
+        log.debug("Log From UserServiceImpl getUser!");
         User user = new User("1", "黄达", 35);
         return user;
     }

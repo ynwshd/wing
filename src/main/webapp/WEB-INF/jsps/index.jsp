@@ -12,6 +12,9 @@
     <body>
         <h3>首页</h3>
         <p>
-            <a href="<%=basePath %>User/list/" class='btn btn-success'>用户列表</a></p>
-    </body>
+            <a href="<%=basePath%>user/list/" class='btn btn-primary glyphicon glyphicon-user'>用户列表</a></p>
+        <a href="<%=basePath%>user/reg/" class='btn btn-success glyphicon glyphicon-plus '>注册用户</a></p>
+
+  
+</body>
 </html>

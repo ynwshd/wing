@@ -4,20 +4,19 @@
 
 <html>
     <head>
-        <%@ include file="common/head.jsp" %>
-
-        <title>wing-Admin detail${admin.name}</title>
+        <%@ include file="../common/head.jsp" %>
+        <title>wing-Admin detail${user.name}</title>
     </head>
     <body>
-        <h2>${admin.name}</h2>
+        <h2>${user.name}</h2>
         <hr/>
         <div class="pannel">
             <p class="text-success">
-                编号: ${admin.id}
+                编号: ${user.id}
 
             </p>
             <p class="text-success">
-                登录名: ${admin.loginname}
+                登录名: ${user.name}
             </p>
         </div>
     </body>

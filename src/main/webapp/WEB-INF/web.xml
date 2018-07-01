@@ -3,11 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
 	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-  <display-name>Spring MVC Study</display-name>
+  <display-name>wing</display-name>
   <!-- Spring应用上下文， 理解层次化的ApplicationContext -->
   <context-param>
  		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/applicationContext.xml</param-value>
+		<param-value>classpath:applicationContext.xml</param-value>
   </context-param>
   
   <listener>
@@ -29,7 +29,7 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>mvc-dispatcher</servlet-name>
+		<servlet-name>dispatcher</servlet-name>
 	    <!-- mvc-dispatcher拦截所有的请求-->
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>

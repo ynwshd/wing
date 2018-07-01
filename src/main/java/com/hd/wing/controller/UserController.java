@@ -5,6 +5,7 @@
  */
 package com.hd.wing.controller;
 
+import com.hd.wing.model.Result;
 import com.hd.wing.model.User;
 import com.hd.wing.model.page.Jpage;
 import org.springframework.stereotype.Controller;
@@ -21,9 +22,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -32,28 +34,94 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
  * @author ynwshd
  */
 @Controller
-@RequestMapping("/User")
-public class UserController {
+@RequestMapping("/user")
+public class UserController extends BaseController {
 
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
+
+    /**
+     * 显示注册页面
+     *
+     * @return
+     */
+    @RequestMapping(value = "/reg", method = RequestMethod.GET)
+    public String showRegView() {
+        return "user/reg";
+    }
+
+    @RequestMapping(value = "/postreg", method = RequestMethod.POST)
+    public ResponseEntity<User> postreg(String name, Integer age) {
+        User u = new User(name, age);
+        return new ResponseEntity<>(u, HttpStatus.OK);
+    }
+
+    /**
+     * 检查用户名是否可用
+     *
+     * @param name
+     * @return 一个result对象
+     */
+    @RequestMapping(value = "/checkusername")
+    public ResponseEntity<Result> CheckUserName(String name) {
+
+        return (name.equals("ynwshd")) ? ResultJson("用户名重复")
+                : ResultJson("用户名可用", true);
+
+    }
+
+    @RequestMapping(value = "/regconfirm", method = RequestMethod.POST)
+    public String regconfirm(String name, Integer age, Model model) {
+        User user = new User(name, age);
+        model.addAttribute(user);
+        return "user/regconfirm";
+    }
 
     /**
      *
      * @return
      */
-    @RequestMapping("/Show/")
+    @RequestMapping("show/")
     public String Show() {
         User user = userService.getUser();
         System.out.println(user.toString());
         return "user/show";
     }
 
-    @RequestMapping(value = "/GetPage/", method = RequestMethod.POST)
-    public ResponseEntity<Jpage<User>> GetUserPage(@PathVariable String findkey,
-            @PathVariable Integer page,
-            @PathVariable Integer pageSize
+    @RequestMapping("list/")
+    public String ShowList() {
+        User user = userService.getUser();
+        System.out.println(user.toString());
+        return "user/list";
+    }
+
+    /**
+     * 测试一个返回一个json 使用sping的注入，从sevice里得到数据
+     *
+     * @return
+     */
+    @RequestMapping("getuser/")
+    public ResponseEntity getUser() {
+        User user = userService.getUser();
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    /**
+     * 返回一个分页，用于jgrid , method = RequestMethod.POST
+     *
+     * @param findkey
+     * @param page
+     * @param rows
+     * @param sord
+     * @return
+     */
+    @RequestMapping(value = "getpage/", method = {RequestMethod.POST,RequestMethod.GET})
+    public ResponseEntity<Jpage<User>> GetUserPage(String findkey,
+            Integer page,
+//            Boolean _search,
+//            String sidx ,
+//            String nd,
+            Integer rows, String sord
     ) {
         List<User> list = new ArrayList<>();
         list.add(new User("1", "黄达", 35));
@@ -62,17 +130,29 @@ public class UserController {
         return new ResponseEntity<>(jpage, HttpStatus.OK);
     }
 
+    /**
+     * 上传文件
+     *
+     * @param file
+     * @return
+     * @throws IOException
+     */
     @RequestMapping(value = "/doUpload", method = RequestMethod.POST)
     public String doUploadFile(@RequestParam("file") MultipartFile file) throws IOException {
 
         if (!file.isEmpty()) {
-            log.debug("Process file: {}", file.getOriginalFilename());
             FileUtils.copyInputStreamToFile(file.getInputStream(), new File("c:\\temp\\imooc\\", System.currentTimeMillis() + file.getOriginalFilename()));
         }
 
         return "success";
     }
 
+    /**
+     * 上传文件-多文件
+     *
+     * @return
+     * @throws IOException
+     */
     @RequestMapping(value = "/doUpload2", method = RequestMethod.POST)
     public String doUploadFile2(MultipartHttpServletRequest multiRequest) throws IOException {
 
@@ -81,7 +161,6 @@ public class UserController {
             String fileName = filesNames.next();
             MultipartFile file = multiRequest.getFile(fileName);
             if (!file.isEmpty()) {
-                log.debug("Process file: {}", file.getOriginalFilename());
                 FileUtils.copyInputStreamToFile(file.getInputStream(), new File("c:\\temp\\imooc\\", System.currentTimeMillis() + file.getOriginalFilename()));
             }
 
