@@ -5,9 +5,9 @@
  */
 package com.hd.wing.controller;
 
-import com.hd.wing.model.Result;
-import com.hd.wing.model.User;
-import com.hd.wing.model.page.Jpage;
+import com.hd.wing.entity.Result;
+import com.hd.wing.entity.EUser;
+import com.hd.wing.entity.page.Jpage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.hd.wing.service.UserService;
@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -51,8 +52,8 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = "/postreg", method = RequestMethod.POST)
-    public ResponseEntity<User> postreg(String name, Integer age) {
-        User u = new User(name, age);
+    public ResponseEntity<EUser> postreg(String name, Integer age) {
+        EUser u = new EUser(name, age);
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
@@ -72,7 +73,7 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/regconfirm", method = RequestMethod.POST)
     public String regconfirm(String name, Integer age, Model model) {
-        User user = new User(name, age);
+        EUser user = new EUser(name, age);
         model.addAttribute(user);
         return "user/regconfirm";
     }
@@ -82,16 +83,14 @@ public class UserController extends BaseController {
      * @return
      */
     @RequestMapping("show/")
-    public String Show() {
-        User user = userService.getUser();
+    public String Show(String Id) {
+        EUser user = userService.getUser(Id);
         System.out.println(user.toString());
         return "user/show";
     }
 
     @RequestMapping("list/")
     public String ShowList() {
-        User user = userService.getUser();
-        System.out.println(user.toString());
         return "user/list";
     }
 
@@ -100,9 +99,9 @@ public class UserController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("getuser/")
-    public ResponseEntity getUser() {
-        User user = userService.getUser();
+    @RequestMapping("getuser/{id}")
+    public ResponseEntity getUser(@PathVariable("id") String Id) {
+        EUser user = userService.getUser(Id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -115,18 +114,18 @@ public class UserController extends BaseController {
      * @param sord
      * @return
      */
-    @RequestMapping(value = "getpage/", method = {RequestMethod.POST,RequestMethod.GET})
-    public ResponseEntity<Jpage<User>> GetUserPage(String findkey,
+    @RequestMapping(value = "getpage/", method = {RequestMethod.POST, RequestMethod.GET})
+    public ResponseEntity<Jpage<EUser>> GetUserPage(String findkey,
             Integer page,
-//            Boolean _search,
-//            String sidx ,
-//            String nd,
+            //            Boolean _search,
+            //            String sidx ,
+            //            String nd,
             Integer rows, String sord
     ) {
-        List<User> list = new ArrayList<>();
-        list.add(new User("1", "黄达", 35));
-        list.add(new User("2", "张三", 88));
-        Jpage<User> jpage = new Jpage<>(1, 10, 100, list);
+        List<EUser> list = new ArrayList<>();
+        list.add(new EUser("1", "黄达", 35));
+        list.add(new EUser("2", "张三", 88));
+        Jpage<EUser> jpage = new Jpage<>(1, 10, 100, list);
         return new ResponseEntity<>(jpage, HttpStatus.OK);
     }
 

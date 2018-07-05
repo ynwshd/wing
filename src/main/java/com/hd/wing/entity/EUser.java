@@ -1,23 +1,26 @@
-package com.hd.wing.model;
+package com.hd.wing.entity;
 
 import java.util.UUID;
-
-public class User {
+import javax.persistence.Entity;
+import javax.persistence.Table;
+@Entity
+@Table(name = "Euser", schema = "")
+public class EUser {
 
     private String id;
     private String name;
     private Integer age;
 
-    public User() {
+    public EUser() {
     }
 
-    public User(String id, String name, Integer age) {
+    public EUser(String id, String name, Integer age) {
         this.id = id;
         this.name = name;
         this.age = age;
     }
 
-    public User(String name, Integer age) {
+    public EUser(String name, Integer age) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.age = age;
@@ -49,7 +52,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", name=" + name + ", age=" + age + '}';
+        return "EUser{" + "id=" + id + ", name=" + name + ", age=" + age + '}';
     }
 
 }

@@ -5,7 +5,7 @@
  */
 package com.hd.wing.service;
 
-import com.hd.wing.model.User;
+import com.hd.wing.entity.EUser;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,5 +15,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
 
-    User getUser();
+    EUser getUser(String Id);
 }

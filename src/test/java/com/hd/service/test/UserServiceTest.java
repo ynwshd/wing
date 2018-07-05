@@ -6,15 +6,11 @@
 package com.hd.service.test;
 
 import com.hd.wing.controller.UserController;
-import com.hd.wing.model.User;
+import com.hd.wing.entity.EUser;
 import com.hd.wing.service.UserService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
@@ -28,9 +24,9 @@ public class UserServiceTest {
     @Autowired
     private UserService userService;
 
-    //@Test
+   // @Test
     public void testUserService() {
-        User user = userService.getUser();
+        EUser user = userService.getUser("1");
         System.out.println(user.toString());
       
     }

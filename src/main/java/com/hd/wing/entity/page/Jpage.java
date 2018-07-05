@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.hd.wing.model.page;
+package com.hd.wing.entity.page;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 /**

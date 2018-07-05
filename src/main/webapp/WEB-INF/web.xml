@@ -32,5 +32,6 @@
 		<servlet-name>dispatcher</servlet-name>
 	    <!-- mvc-dispatcher拦截所有的请求-->
 		<url-pattern>/</url-pattern>
+<!--                 <url-pattern>*.jhtml</url-pattern>-->
 	</servlet-mapping>
 </web-app>
